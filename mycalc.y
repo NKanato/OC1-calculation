@@ -1,6 +1,9 @@
 %{
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
+
+//優先順位が低い奴から出ていくようにする
 
 // yacc が定義する内部関数のプロトタイプ宣言
 #define YYDEBUG 1
@@ -21,7 +24,7 @@ extern  int  yylex( void ) ;
    int  int_value;
 }
 %token <int_value>  INT_LITERAL
-%token ADD SUB MUL DIV CR  //今回の課題で直さないといけないところ24.1.23
+%token ADD SUB MUL DIV CR REM POW//今回の課題で直さないといけないところ24.1.23
 %type  <int_value>   expression term primary_expression
 
 %%
@@ -43,6 +46,8 @@ expression : term
 term       : primary_expression
            | term MUL primary_expression { $$ = $1 * $3 ; }
            | term DIV primary_expression { $$ = $1 / $3 ; }
+           | term REM primary_expression { $$ = $1 % $3 ; }
+           | term POW primary_expression { $$ = pow((int)$1, (int)$3) ; }
            ;
 
 //因子(primary_expression)は整数値(INT_LITERAL)となる
