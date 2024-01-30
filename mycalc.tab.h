@@ -45,8 +45,10 @@
      MUL = 261,
      DIV = 262,
      CR = 263,
-     REM = 264,
-     POW = 265
+     MOD = 264,
+     POW = 265,
+     LP = 266,
+     RP = 267
    };
 #endif
 
@@ -64,7 +66,7 @@ typedef union YYSTYPE
 
 
 /* Line 1676 of yacc.c  */
-#line 68 "mycalc.tab.h"
+#line 70 "mycalc.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

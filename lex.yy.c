@@ -647,12 +647,12 @@ return POW ;/*‚×‚«æ*/
 case 7:
 YY_RULE_SETUP
 #line 20 "mycalc.l"
-return LP ;
+return LP  ;
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
 #line 21 "mycalc.l"
-return RP ;
+return RP  ;
 	YY_BREAK
 case 9:
 YY_RULE_SETUP

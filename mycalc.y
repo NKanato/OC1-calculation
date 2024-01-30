@@ -25,7 +25,7 @@ extern  int  yylex( void ) ;
 }
 %token <int_value>  INT_LITERAL
 %token ADD SUB MUL DIV CR MOD POW LP RP//今回の課題で直さないといけないところ24.1.23
-%type  <int_value>   expression term primary_expression expression_pow
+%type  <int_value>   expression term primary_expression expression_pow expression_parenthes
 
 %%
 // 構文の定義
@@ -51,15 +51,17 @@ term       : expression_pow
            ;
 
 //べき因子
-expression_pow : primary_expression
-           |  expression_pow POW primary_expression { $$ = pow((int)$1, (int)$3) ; }
+expression_pow : expression_parenthes
+           |  expression_pow POW expression_parenthes { $$ = pow((int)$1, (int)$3) ; }
            ;
+
+//かっこ因子
+expression_parenthes : primary_expression
+           |  LP expression RP {$$ = $2;} //jump into expression
 
 //因子(primary_expression)は整数値(INT_LITERAL)となる
 primary_expression
            : INT_LITERAL
-           | primary_expression LP expression {$$} primary_expression RP
-           | primary_expression LP term {$$} primary_expression RP//ここ()ついか
            ;
 %%
 
