@@ -24,8 +24,8 @@ extern  int  yylex( void ) ;
    int  int_value;
 }
 %token <int_value>  INT_LITERAL
-%token ADD SUB MUL DIV CR REM POW//今回の課題で直さないといけないところ24.1.23
-%type  <int_value>   expression term primary_expression
+%token ADD SUB MUL DIV CR MOD POW LP RP//今回の課題で直さないといけないところ24.1.23
+%type  <int_value>   expression term primary_expression expression_pow
 
 %%
 // 構文の定義
@@ -43,16 +43,23 @@ expression : term
            | expression SUB term { $$ = $1 - $3 ; }
            ;
 
-term       : primary_expression
-           | term MUL primary_expression { $$ = $1 * $3 ; }
-           | term DIV primary_expression { $$ = $1 / $3 ; }
-           | term REM primary_expression { $$ = $1 % $3 ; }
-           | term POW primary_expression { $$ = pow((int)$1, (int)$3) ; }
+///項
+term       : expression_pow
+           | term MUL expression_pow { $$ = $1 * $3 ; }
+           | term DIV expression_pow { $$ = $1 / $3 ; }
+           | term MOD expression_pow { $$ = $1 % $3 ; }
+           ;
+
+//べき因子
+expression_pow : primary_expression
+           |  expression_pow POW primary_expression { $$ = pow((int)$1, (int)$3) ; }
            ;
 
 //因子(primary_expression)は整数値(INT_LITERAL)となる
 primary_expression
            : INT_LITERAL
+           | primary_expression LP expression {$$} primary_expression RP
+           | primary_expression LP term {$$} primary_expression RP//ここ()ついか
            ;
 %%
 

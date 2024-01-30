@@ -15,8 +15,10 @@ int yywrap( void )
 "-"  return SUB ;
 "*"  return MUL ;
 "/"  return DIV ;
-"%"  return REM ;/*‚ ‚Ü‚è*/
+"%"  return MOD ;/*‚ ‚Ü‚è*/
 "^"  return POW ;/*‚×‚«æ*/
+"("  return LP ;
+")"  return RP ;
 "\n" return CR  ;
 [0-9][0-9]* {
    // “ü—Í‚Íyytext‚ÉŠi”[‚³‚ê‚Ä‚¢‚éB
