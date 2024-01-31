@@ -39,7 +39,7 @@
    /* Put the tokens into the symbol table, so that GDB and other debuggers
       know about them.  */
    enum yytokentype {
-     INT_LITERAL = 258,
+     FLOAT_LITERAL = 258,
      ADD = 259,
      SUB = 260,
      MUL = 261,
@@ -61,12 +61,13 @@ typedef union YYSTYPE
 /* Line 1676 of yacc.c  */
 #line 23 "mycalc.y"
 
-   int  int_value;
+   //int  int_value;
+   float float_value;
 
 
 
 /* Line 1676 of yacc.c  */
-#line 70 "mycalc.tab.h"
+#line 71 "mycalc.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

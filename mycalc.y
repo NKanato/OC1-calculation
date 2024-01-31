@@ -21,11 +21,13 @@ extern  int  yylex( void ) ;
 
 // 字句(トークン)の定義
 %union {
-   int  int_value;
+   //int  int_value;
+   float float_value;
 }
-%token <int_value>  INT_LITERAL
+//%token <int_value>  INT_LITERAL
+%token <float_value> FLOAT_LITERAL
 %token ADD SUB MUL DIV CR MOD POW LP RP//今回の課題で直さないといけないところ24.1.23
-%type  <int_value>   expression term primary_expression expression_pow expression_parenthes
+%type  <float_value>   expression term primary_expression expression_pow expression_parenthes
 
 %%
 // 構文の定義
@@ -33,7 +35,7 @@ line_list  : line                // 行の繰り返し
            | line_list line
            ;
 
-line       : expression CR       { printf( ">>%d\n" , $1 ) ; }//expressionの後ろにCRが来ると、それを式として扱うと定義する
+line       : expression CR       { printf( ">>%f\n" , $1 ) ; }//expressionの後ろにCRが来ると、それを式として扱うと定義する
            ;
 
 // 以下のBNFルールは、単純に再帰に置き換えると
@@ -47,21 +49,22 @@ expression : term
 term       : expression_pow
            | term MUL expression_pow { $$ = $1 * $3 ; }
            | term DIV expression_pow { $$ = $1 / $3 ; }
-           | term MOD expression_pow { $$ = $1 % $3 ; }
+           | term MOD expression_pow { $$ = (int)$1 % (int)$3 ; }//fmod関数もあり
            ;
 
 //べき因子
 expression_pow : expression_parenthes
-           |  expression_pow POW expression_parenthes { $$ = pow((int)$1, (int)$3) ; }
+           |  expression_pow POW expression_parenthes { $$ = pow($1, $3) ; }
            ;
 
 //かっこ因子
 expression_parenthes : primary_expression
-           |  LP expression RP {$$ = $2;} //jump into expression
+           |  LP expression RP { $$ = $2; } //jump into expression
 
 //因子(primary_expression)は整数値(INT_LITERAL)となる
 primary_expression
-           : INT_LITERAL
+           : FLOAT_LITERAL
+           | SUB term { $$ = $2 * (-1); }
            ;
 %%
 

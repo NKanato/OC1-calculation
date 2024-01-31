@@ -20,12 +20,12 @@ int yywrap( void )
 "("  return LP  ;
 ")"  return RP  ;
 "\n" return CR  ;
-[0-9][0-9]* {
+[0-9]+(\.?[0-9]+)? {
    // 入力はyytextに格納されている。
-   int temp ;
-   sscanf( yytext , "%d" , &temp ) ;
-   yylval.int_value = temp ;
+   float temp ;
+   sscanf( yytext , "%f" , &temp ) ;
+   yylval.float_value = temp ;
    // 返り値は、字句(トークン)の種別を表す定数
-   return INT_LITERAL;
+   return FLOAT_LITERAL;
 }
 %%
